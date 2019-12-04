@@ -1,9 +1,14 @@
 package com.example.ravi.network.model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+@Entity(tableName = "tips_table")
 public class Resultarray {
 
+    @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
     private String id;
     @SerializedName("title")

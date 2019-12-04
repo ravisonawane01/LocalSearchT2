@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ravi.R;
 import com.example.ravi.adapter.HealthTipsAdapterFilterable;
+import com.example.ravi.db.NoteDatabase;
 import com.example.ravi.network.MyClient;
 import com.example.ravi.network.MyService;
 import com.example.ravi.network.model.Example;
@@ -32,6 +33,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.observers.DisposableCompletableObserver;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -137,6 +139,7 @@ public class HealthTipsActivity extends AppCompatActivity {
                             resultList.clear();
                             resultList.addAll(example.getResultarray());
                             mAdapter.notifyDataSetChanged();
+                            saveToDB(example.getResultarray());
                         }
                     }
 
@@ -162,6 +165,25 @@ public class HealthTipsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void saveToDB(List<Resultarray> resultarrays) {
+        disposable.add(NoteDatabase.getInstance(getApplicationContext())
+                .noteDao()
+                .insertAll(resultarrays)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                }));
     }
 }
 
