@@ -1,15 +1,22 @@
-
 package com.example.ravi.network.model;
 
-import java.util.List;
-import com.google.gson.annotations.Expose;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
+@Entity(tableName = "tips_table")
 public class Example {
+
+    @PrimaryKey(autoGenerate = true)
+    private int id;
 
     @SerializedName("success")
     private Integer success;
     @SerializedName("resultarray")
+
     private List<Resultarray> resultarray;
 
     public Integer getSuccess() {
@@ -28,4 +35,11 @@ public class Example {
         this.resultarray = resultarray;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

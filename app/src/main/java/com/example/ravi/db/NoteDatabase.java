@@ -6,13 +6,14 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+import com.example.ravi.network.model.Example;
 import com.example.ravi.network.model.Resultarray;
 
 /**
  * Created by user on 10/23/2018.
  */
 
-@Database(entities = {Resultarray.class}, version = 1)
+@Database(entities = {Example.class}, version = 1, exportSchema = false)
 public abstract class NoteDatabase extends RoomDatabase {
 
     private static NoteDatabase instance;

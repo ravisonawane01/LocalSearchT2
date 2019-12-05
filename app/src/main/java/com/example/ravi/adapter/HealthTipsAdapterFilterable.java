@@ -12,10 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.ravi.R;
-import com.example.ravi.app.GlideApp;
 import com.example.ravi.network.model.Resultarray;
 
 import java.util.ArrayList;
@@ -51,12 +48,12 @@ public class HealthTipsAdapterFilterable extends RecyclerView.Adapter<HealthTips
         holder.totalLikes.setText(String.valueOf(resultarray.getTotalLikes()));
         holder.totalViews.setText(String.valueOf(resultarray.getTotalViews()));
 
-        GlideApp.with(context)
+        /*GlideApp.with(context)
                 .load(resultarray.getImage())
                 .override(300, 300)
                 .fitCenter()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.image);
+                .into(holder.image);*/
     }
 
     @Override

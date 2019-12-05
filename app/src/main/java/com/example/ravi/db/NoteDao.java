@@ -5,6 +5,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import com.example.ravi.network.model.Example;
 import com.example.ravi.network.model.Resultarray;
 
 import java.util.List;
@@ -19,15 +20,15 @@ import io.reactivex.Single;
 @Dao
 public interface NoteDao {
 
-    @Insert
-    void insert(Resultarray resultarray);
+    /*@Insert
+    void insert(Resultarray resultarray);*/
 
     @Insert
-    Completable insertAll(List<Resultarray> resultarray);
+    Completable insertAll(Example example);
 
-    @Update
-    Single update(Resultarray resultarray);
+   /* @Update
+    void update(Resultarray resultarray);*/
 
     @Query("SELECT * FROM tips_table")
-    Single<List<Resultarray>> getAllNotes();
+    Single<Example> getAllTips();
 }

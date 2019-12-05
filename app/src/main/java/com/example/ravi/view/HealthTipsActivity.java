@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -126,11 +127,8 @@ public class HealthTipsActivity extends AppCompatActivity {
      */
     private void addDisposableTips() {
         progressBar.setVisibility(View.VISIBLE);
-
         disposable.add(apiService
                 .getHealthTips("0", "2946")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableSingleObserver<Example>() {
                     @Override
                     public void onSuccess(Example example) {
@@ -139,7 +137,6 @@ public class HealthTipsActivity extends AppCompatActivity {
                             resultList.clear();
                             resultList.addAll(example.getResultarray());
                             mAdapter.notifyDataSetChanged();
-                            saveToDB(example.getResultarray());
                         }
                     }
 
@@ -149,7 +146,56 @@ public class HealthTipsActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }));
+                /*.flatMap(example -> NoteDatabase.getInstance(getApplicationContext()).noteDao().insertAll(example.getResultarray()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableSingleObserver<List<Long>>() {
+                    @Override
+                    public void onSuccess(List<Long> resultarrays) {
+                        progressBar.setVisibility(View.GONE);
+                        if (resultarrays != null) {
+                            resultList.clear();
+                            resultList.addAll(resultarrays.);
+                            mAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+                }));*/
+
+        /*disposable.add(NoteDatabase.getInstance(getApplicationContext())
+                .noteDao()
+                .insertAll(resultList)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableCompletableObserver() {
+                    @Override
+                    public void onComplete() {
+                        Toast.makeText(getApplicationContext(), "yes", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getApplicationContext(), "no", Toast.LENGTH_LONG).show();
+                    }
+                }));*/
     }
+
+    /*private Completable saveToDB(List<Resultarray> resultarrays) {
+        return Completable.create(new CompletableOnSubscribe() {
+            @Override
+            public void subscribe(CompletableEmitter emitter) throws Exception {
+                if (!emitter.isDisposed()) {
+                    Thread.sleep(1000);
+                    emitter.onComplete();
+                }
+            }
+        });
+    }*/
+
 
     @Override
     protected void onDestroy() {
@@ -165,25 +211,6 @@ public class HealthTipsActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void saveToDB(List<Resultarray> resultarrays) {
-        disposable.add(NoteDatabase.getInstance(getApplicationContext())
-                .noteDao()
-                .insertAll(resultarrays)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableCompletableObserver() {
-                    @Override
-                    public void onComplete() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-
-                    }
-                }));
     }
 }
 

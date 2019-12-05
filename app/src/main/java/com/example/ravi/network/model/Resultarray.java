@@ -1,16 +1,11 @@
 package com.example.ravi.network.model;
 
-import androidx.room.Entity;
-import androidx.room.PrimaryKey;
-
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "tips_table")
 public class Resultarray {
 
-    @PrimaryKey(autoGenerate = true)
     @SerializedName("id")
-    private String id;
+    private int id;
     @SerializedName("title")
     private String title;
     @SerializedName("date")
@@ -32,11 +27,11 @@ public class Resultarray {
     @SerializedName("likestatus")
     private int likestatus;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
